@@ -183,68 +183,73 @@ const DrawableCanvas = ({ args }: ComponentProps) => {
    * Render canvas w/ toolbar
    */
   return (
-    <div style={{ position: "relative" }}>
-      <div
-        style={{
-          position: "absolute",
-          top: 0,
-          left: 0,
-          zIndex: -10,
-          visibility: "hidden",
-        }}
-      >
-        <UpdateStreamlit
-          canvasHeight={canvasHeight}
-          canvasWidth={canvasWidth}
-          shouldSendToStreamlit={
-            realtimeUpdateStreamlit || forceSendToStreamlit
-          }
-          stateToSendToStreamlit={currentState}
-        />
+    <div style={{ width: "100%", height: "100%", overflow: "scroll" }}>
+      <div style={{ width: canvasWidth, height: canvasHeight}}>
+        <div style={{ position: "relative", minWidth: "100%", minHeight: "100%" }}>
+          <div
+              style={{
+                position: "absolute",
+                top: 0,
+                left: 0,
+                zIndex: -10,
+                visibility: "hidden",
+              }}
+          >
+            <UpdateStreamlit
+                canvasHeight={canvasHeight}
+                canvasWidth={canvasWidth}
+                shouldSendToStreamlit={
+                    realtimeUpdateStreamlit || forceSendToStreamlit
+                }
+                stateToSendToStreamlit={currentState}
+            />
+          </div>
+          <div
+              style={{
+                position: "absolute",
+                top: 0,
+                left: 0,
+                zIndex: 0,
+              }}
+          >
+            <canvas
+                id="backgroundimage-canvas"
+                width={canvasWidth}
+                height={canvasHeight}
+            />
+          </div>
+          <div
+              style={{
+                position: "absolute",
+                top: 0,
+                left: 0,
+                zIndex: 10,
+                overflow: "scroll"
+              }}
+          >
+            <canvas
+                id="canvas"
+                width={canvasWidth}
+                height={canvasHeight}
+                style={{ border: "lightgrey 1px solid" }}
+            />
+          </div>
+          {displayToolbar && (
+              <CanvasToolbar
+                  topPosition={canvasHeight}
+                  leftPosition={canvasWidth}
+                  canUndo={canUndo}
+                  canRedo={canRedo}
+                  downloadCallback={forceStreamlitUpdate}
+                  undoCallback={undo}
+                  redoCallback={redo}
+                  resetCallback={() => {
+                    resetState(initialState)
+                  }}
+              />
+          )}
+        </div>
       </div>
-      <div
-        style={{
-          position: "absolute",
-          top: 0,
-          left: 0,
-          zIndex: 0,
-        }}
-      >
-        <canvas
-          id="backgroundimage-canvas"
-          width={canvasWidth}
-          height={canvasHeight}
-        />
-      </div>
-      <div
-        style={{
-          position: "absolute",
-          top: 0,
-          left: 0,
-          zIndex: 10,
-        }}
-      >
-        <canvas
-          id="canvas"
-          width={canvasWidth}
-          height={canvasHeight}
-          style={{ border: "lightgrey 1px solid" }}
-        />
-      </div>
-      {displayToolbar && (
-        <CanvasToolbar
-          topPosition={canvasHeight}
-          leftPosition={canvasWidth}
-          canUndo={canUndo}
-          canRedo={canRedo}
-          downloadCallback={forceStreamlitUpdate}
-          undoCallback={undo}
-          redoCallback={redo}
-          resetCallback={() => {
-            resetState(initialState)
-          }}
-        />
-      )}
     </div>
   )
 }
