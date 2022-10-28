@@ -13,6 +13,7 @@ def readme() -> str:
     return open(join(dirname(__file__), "README.md")).read()
 
 
+
 setuptools.setup(
     name="streamlit-drawable-canvas",
     version="0.10.1",
