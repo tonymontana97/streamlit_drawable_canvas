@@ -9,7 +9,7 @@ import streamlit.components.v1 as components
 import streamlit.elements.image as st_image
 from PIL import Image
 
-_RELEASE = False  # on packaging, pass this to True
+_RELEASE = True  # on packaging, pass this to True
 
 if not _RELEASE:
     _component_func = components.declare_component(
@@ -122,7 +122,7 @@ def st_canvas(
         background_image = _resize_img(background_image, height, width)
         # Reduce network traffic and cache when switch another configure, use streamlit in-mem filemanager to convert image to URL
         background_image_url = st_image.image_to_url(
-            background_image, width, True, "RGB", "PNG", f"drawable-canvas-bg-{md5(background_image.tobytes()).hexdigest()}-{key}" 
+            background_image, width, True, "RGB", "PNG", f"drawable-canvas-bg-{md5(background_image.tobytes()).hexdigest()}-{key}"
         )
         # always send relative URLs, the frontend handles this
         if background_image_url[0] == '/':
